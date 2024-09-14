@@ -15,6 +15,8 @@ function getComputerChoice() {
 
 function getHumanChoice() {
     let input = prompt("Enter Rock, Paper, or Scissors:");
+
+    // using trim to remove the gap between "  rock  " if required
     input = input.trim().toLowerCase();
     const validChoices = ["rock", "paper", "scissors"];
     
@@ -75,4 +77,3 @@ function playGame() {
 
 // Start the game
 playGame();
-    
