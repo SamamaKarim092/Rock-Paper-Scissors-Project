@@ -1,2 +1,2 @@
 # Rock-Paper-Scissors-Project
- This is the Project of Javascrpt
+ This is the Project of Javascript
