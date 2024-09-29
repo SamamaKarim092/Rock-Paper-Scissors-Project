@@ -1,5 +1,4 @@
 // Computer Logic Function
-
 function getComputerChoice() {
     let randomChoice = Math.random();
     if (randomChoice < 0.333) {
@@ -8,71 +7,87 @@ function getComputerChoice() {
         return "paper";
     } else {
         return "scissors";
-    }
+    }  
 }
 
-// Human Logic Function
-
-function getHumanChoice() {
-    let input = prompt("Enter Rock, Paper, or Scissors:");
-
-    // using trim to remove the gap between "  rock  " if required
-    input = input.trim().toLowerCase();
-    const validChoices = ["rock", "paper", "scissors"];
-    
-    while (!validChoices.includes(input)) {
-        input = prompt("Invalid input. Please enter Rock, Paper, or Scissors:");
-        input = input.trim().toLowerCase();
-    }
-    
-    return input;
-}
-
+// Play Round Function
 function playRound(humanChoice, computerChoice) {
+    let resultText = '';
+
     if (humanChoice === computerChoice) {
-        console.log(`It's a Tie! Both chose ${humanChoice}`);
-        return "tie";
-    } 
-    else if (
+        resultText = `It's a Tie! Both chose ${humanChoice}`;
+    } else if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
-        (humanChoice === "scissors" && computerChoice === "paper")) 
-        {console.log(`You win! ${humanChoice} beats ${computerChoice}`);
-        return "human"}
-        else {
-            console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
-            return "computer";
-        }
+        (humanChoice === "scissors" && computerChoice === "paper")
+    ) {
+        resultText = `You win! ${humanChoice} beats ${computerChoice}`;
+    } else {
+        resultText = `You lose! ${computerChoice} beats ${humanChoice}`;
     }
 
-// Function to Play the Entire Game
+    return resultText;
+}
+
+// Function to Play the Game
 function playGame() {
     let humanScore = 0;
     let computerScore = 0;
+    let gameOver = false;
 
-    // Loop to play 5 rounds
-    for (let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        const roundResult = playRound(humanSelection, computerSelection);
+    // Elements for results display
+    const playerResultDiv = document.querySelector('.player-result');
+    const computerResultDiv = document.querySelector('.computer-result');
+    const roundResultDiv = document.querySelector('.round-result');
+    const scoreDiv = document.querySelector('.score');
+    const finalResultDiv = document.querySelector('.final-result');
 
-        // Update scores based on round result
-        if (roundResult === "human") {
-            humanScore++;
-        } else if (roundResult === "computer") {
-            computerScore++;
-        }
-    }
+    // Button event listeners
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (!gameOver) {
+                let humanChoice = this.id;
+                let computerChoice = getComputerChoice();
+                let result = playRound(humanChoice, computerChoice);
 
-    // Announce the final winner
-    console.log(`Final Scores: Human: ${humanScore}, Computer: ${computerScore}`);
-    if (humanScore > computerScore) {
-        console.log("You are the overall winner!");
-    } else if (humanScore < computerScore) {
-        console.log("The computer is the overall winner!");
-    } else {
-        console.log("It's an overall tie!");
-    }
+                // Display results in the UI
+                playerResultDiv.textContent = `Player: ${humanChoice}`;
+                computerResultDiv.textContent = `Computer: ${computerChoice}`;
+                roundResultDiv.textContent = result;
+
+                // Update the scores
+                if (result.includes('win')) {
+                    humanScore++;
+                } else if (result.includes('lose')) {
+                    computerScore++;
+                }
+
+                // Show the updated score
+                scoreDiv.textContent = `Score - You: ${humanScore}, Computer: ${computerScore}`;
+
+                // Check if someone has won 5 times
+                if (humanScore === 5) {
+                    gameOver = true;
+                    finalResultDiv.textContent = "You win the game!";
+                    finalResultDiv.classList.add("win");
+                    disableButtons(buttons);
+                } else if (computerScore === 5) {
+                    gameOver = true;
+                    finalResultDiv.textContent = "Computer wins the game!";
+                    finalResultDiv.classList.add("lose");
+                    disableButtons(buttons);
+                }
+            }
+        });
+    });
+}
+
+// Function to disable buttons after the game is over
+function disableButtons(buttons) {
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
 }
 
 // Start the game

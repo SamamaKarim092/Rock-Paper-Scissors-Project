@@ -1,0 +1,82 @@
+/* General styling */
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #00C9FF 10%, #92FE9D 90%);
+    color: #333;
+    margin: 0;
+}
+
+/* Container styling */
+.button-container {
+    margin: 20px;
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+}
+
+/* Styling for the buttons */
+button {
+    background-color: #ffffff;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    padding: 15px 20px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #4CAF50;
+    color: white;
+    transform: scale(1.1);
+}
+
+button:disabled {
+    background-color: #ddd;
+    color: #aaa;
+    border: 2px solid #aaa;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Styling the results section */
+.results {
+    margin-top: 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    width: 300px;
+}
+
+/* Individual results and score */
+.player-result, .computer-result, .round-result, .score {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Final result text */
+.final-result {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Styling for different states of the final result */
+.final-result.win {
+    color: #28a745;
+}
+
+.final-result.lose {
+    color: #dc3545;
+}
